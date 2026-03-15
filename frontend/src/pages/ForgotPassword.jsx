@@ -10,7 +10,7 @@ function ForgotPassword() {
 
     ```
 // later you will call Spring Boot API here
-// fetch("http://localhost:8080/auth/forgot-password", { method:"POST", body: JSON.stringify({email}) })
+// fetch("https://content-wholeness-production-5ed0.up.railway.app/auth/forgot-password", { method:"POST", body: JSON.stringify({email}) })
 
 console.log("Reset link sent to:", email);
 

@@ -33,8 +33,8 @@ export default function AdminDashboard() {
     const headers = { Authorization: `Bearer ${token}` };
 
     Promise.all([
-      fetch("http://localhost:8080/api/admin/attempts", { headers }),
-      fetch("http://localhost:8080/api/admin/tests", { headers }),
+      fetch("https://content-wholeness-production-5ed0.up.railway.app/api/admin/attempts", { headers }),
+      fetch("https://content-wholeness-production-5ed0.up.railway.app/api/admin/tests", { headers }),
     ]).then(async ([attRes, testRes]) => {
       const attempts = attRes.ok ? await attRes.json() : [];
       const tests = testRes.ok ? await testRes.json() : [];

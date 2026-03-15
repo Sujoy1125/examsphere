@@ -32,8 +32,8 @@ export default function ResultAnalytics() {
     if (!token) { navigate("/admin-login"); return; }
     const headers = { Authorization: `Bearer ${token}` };
     Promise.all([
-      fetch("http://localhost:8080/api/admin/attempts", { headers }).then(r => r.json()),
-      fetch("http://localhost:8080/api/attempts/leaderboard", { headers }).then(r => r.json()),
+      fetch("https://content-wholeness-production-5ed0.up.railway.app/api/admin/attempts", { headers }).then(r => r.json()),
+      fetch("https://content-wholeness-production-5ed0.up.railway.app/api/attempts/leaderboard", { headers }).then(r => r.json()),
     ]).then(([a, l]) => { setAttempts(a); setLeaderboard(l); })
       .catch(() => {}).finally(() => setLoading(false));
   }, []);

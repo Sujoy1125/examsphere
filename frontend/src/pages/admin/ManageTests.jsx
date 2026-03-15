@@ -29,8 +29,8 @@ export default function ManageTests() {
 
   const fetchAll = () => {
     Promise.all([
-      fetch("http://localhost:8080/api/admin/tests", { headers }).then(r => r.json()),
-      fetch("http://localhost:8080/api/admin/subjects", { headers }).then(r => r.json()),
+      fetch("https://content-wholeness-production-5ed0.up.railway.app/api/admin/tests", { headers }).then(r => r.json()),
+      fetch("https://content-wholeness-production-5ed0.up.railway.app/api/admin/subjects", { headers }).then(r => r.json()),
     ]).then(([t, s]) => { setTests(t); setSubjects(s); }).catch(() => {})
       .finally(() => setLoading(false));
   };
@@ -69,7 +69,7 @@ export default function ManageTests() {
     if (!validate()) return;
     setSaving(true);
     try {
-      const url = editingTest ? `http://localhost:8080/api/admin/tests/${editingTest.id}` : "http://localhost:8080/api/admin/tests";
+      const url = editingTest ? `https://content-wholeness-production-5ed0.up.railway.app/api/admin/tests/${editingTest.id}` : "https://content-wholeness-production-5ed0.up.railway.app/api/admin/tests";
       const method = editingTest ? "PUT" : "POST";
       await fetch(url, { method, headers, body: JSON.stringify(form) });
       fetchAll();
@@ -79,12 +79,12 @@ export default function ManageTests() {
   };
 
   const toggleActive = async (id) => {
-    await fetch(`http://localhost:8080/api/admin/tests/${id}/toggle`, { method: "PUT", headers });
+    await fetch(`https://content-wholeness-production-5ed0.up.railway.app/api/admin/tests/${id}/toggle`, { method: "PUT", headers });
     fetchAll();
   };
 
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:8080/api/admin/tests/${id}`, { method: "DELETE", headers });
+    await fetch(`https://content-wholeness-production-5ed0.up.railway.app/api/admin/tests/${id}`, { method: "DELETE", headers });
     fetchAll();
     setDeleteConfirm(null);
   };

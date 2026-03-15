@@ -28,7 +28,7 @@ export default function ManageSubjects() {
   }, []);
 
   const fetchSubjects = () => {
-    fetch("http://localhost:8080/api/admin/subjects", { headers })
+    fetch("https://content-wholeness-production-5ed0.up.railway.app/api/admin/subjects", { headers })
       .then(r => r.json()).then(setSubjects).catch(() => setSubjects([]))
       .finally(() => setLoading(false));
   };
@@ -41,8 +41,8 @@ export default function ManageSubjects() {
     setSaving(true);
     try {
       const url = editingSubject
-        ? `http://localhost:8080/api/admin/subjects/${editingSubject.id}`
-        : "http://localhost:8080/api/admin/subjects";
+        ? `https://content-wholeness-production-5ed0.up.railway.app/api/admin/subjects/${editingSubject.id}`
+        : "https://content-wholeness-production-5ed0.up.railway.app/api/admin/subjects";
       const method = editingSubject ? "PUT" : "POST";
       await fetch(url, { method, headers, body: JSON.stringify({ name: form.name, icon: form.icon }) });
       fetchSubjects();
@@ -53,7 +53,7 @@ export default function ManageSubjects() {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:8080/api/admin/subjects/${id}`, { method: "DELETE", headers });
+      await fetch(`https://content-wholeness-production-5ed0.up.railway.app/api/admin/subjects/${id}`, { method: "DELETE", headers });
       fetchSubjects();
       setDeleteConfirm(null);
     } catch { alert("Failed to delete subject."); }
