@@ -13,7 +13,7 @@ export default function AttemptHistory() {
 
   useEffect(() => {
     if (!token) { navigate("/admin-login"); return; }
-    fetch("https://content-wholeness-production-5ed0.up.railway.app/api/admin/attempts", {
+    fetch("https://examsphere-backend.onrender.com/api/admin/attempts", {
       headers: { Authorization: `Bearer ${token}` }
     }).then(r => r.json()).then(setAttempts).catch(() => setAttempts([]))
       .finally(() => setLoading(false));

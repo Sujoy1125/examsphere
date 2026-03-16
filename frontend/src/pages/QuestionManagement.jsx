@@ -23,7 +23,7 @@ export default function QuestionManagement() {
 
   useEffect(() => {
     if (!token) { navigate("/admin-login"); return; }
-    fetch("https://content-wholeness-production-5ed0.up.railway.app/api/admin/tests", { headers })
+    fetch("https://examsphere-backend.onrender.com/api/admin/tests", { headers })
       .then(r => r.json()).then(t => { setTests(t); if (t.length > 0) setSelectedTest(String(t[0].id)); })
       .catch(() => {});
   }, []);
@@ -31,7 +31,7 @@ export default function QuestionManagement() {
   useEffect(() => {
     if (!selectedTest) return;
     setLoading(true);
-    fetch(`https://content-wholeness-production-5ed0.up.railway.app/api/tests/${selectedTest}/questions`, { headers })
+    fetch(`https://examsphere-backend.onrender.com/api/tests/${selectedTest}/questions`, { headers })
       .then(r => r.json()).then(setQuestions).catch(() => setQuestions([]))
       .finally(() => setLoading(false));
   }, [selectedTest]);
@@ -66,11 +66,11 @@ export default function QuestionManagement() {
     if (!validate()) return;
     setSaving(true);
     try {
-      const url = editingQ ? `https://content-wholeness-production-5ed0.up.railway.app/api/admin/questions/${editingQ.id}` : "https://content-wholeness-production-5ed0.up.railway.app/api/admin/questions";
+      const url = editingQ ? `https://examsphere-backend.onrender.com/api/admin/questions/${editingQ.id}` : "https://examsphere-backend.onrender.com/api/admin/questions";
       const method = editingQ ? "PUT" : "POST";
       await fetch(url, { method, headers, body: JSON.stringify({ ...form, testId: Number(form.testId) }) });
       // Reload questions
-      const res = await fetch(`https://content-wholeness-production-5ed0.up.railway.app/api/tests/${selectedTest}/questions`, { headers });
+      const res = await fetch(`https://examsphere-backend.onrender.com/api/tests/${selectedTest}/questions`, { headers });
       setQuestions(await res.json());
       setShowModal(false);
     } catch { alert("Failed to save question."); }
@@ -78,7 +78,7 @@ export default function QuestionManagement() {
   };
 
   const handleDelete = async (id) => {
-    await fetch(`https://content-wholeness-production-5ed0.up.railway.app/api/admin/questions/${id}`, { method: "DELETE", headers });
+    await fetch(`https://examsphere-backend.onrender.com/api/admin/questions/${id}`, { method: "DELETE", headers });
     setQuestions(questions.filter(q => q.id !== id));
     setDeleteConfirm(null);
   };

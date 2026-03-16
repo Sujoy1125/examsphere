@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://content-wholeness-production-5ed0.up.railway.app/api",
+  baseURL: "https://examsphere-backend.onrender.com/api",
 });
 
 API.interceptors.request.use((config) => {
@@ -23,7 +23,7 @@ export default API;
 // import axios from "axios";
 
 // const API = axios.create({
-//   baseURL: "https://content-wholeness-production-5ed0.up.railway.app/api",
+//   baseURL: "https://examsphere-backend.onrender.com/api",
 // });
 
 // API.interceptors.request.use((config) => {
