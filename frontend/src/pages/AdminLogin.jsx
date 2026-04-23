@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import API from "../services/api";
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -18,30 +19,26 @@ function AdminLogin() {
     }
 
     try {
-      const response = await fetch("https://examsphere-backend.onrender.com/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await API.post("/auth/login", { email, password });
+      const data = response.data;
 
-      if (response.ok) {
-        const data = await response.json();
-
-        if (data.role !== "ADMIN") {
-          setError("Access denied. Admin credentials required.");
-          return;
-        }
-
-        localStorage.setItem("adminToken", data.token);
-        localStorage.setItem("adminUser", JSON.stringify(data));
-        navigate("/admin-dashboard");
-      } else {
-        setError("Invalid Admin Credentials");
+      if (data.role !== "ADMIN") {
+        setError("Access denied. Admin credentials required.");
+        return;
       }
+
+      localStorage.setItem("adminToken", data.token);
+      localStorage.setItem("adminUser", JSON.stringify(data));
+      navigate("/admin-dashboard");
     } catch (err) {
-      setError("Server not running. Please start the backend.");
+      console.error("Admin login error:", err);
+      if (err.response) {
+        setError(err.response.data?.error || "Invalid Admin Credentials");
+      } else if (err.request) {
+        setError("Cannot connect to server. Is the backend running?");
+      } else {
+        setError("Server not running. Please start the backend.");
+      }
     }
   };
 

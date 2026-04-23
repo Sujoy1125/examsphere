@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AdminSidebar from "../../components/AdminSidebar";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../services/api";
 
 const BarChart = ({ data, valueKey, labelKey, color = "bg-primary" }) => {
   const max = Math.max(...data.map(d => d[valueKey]), 1);
@@ -32,8 +33,8 @@ export default function ResultAnalytics() {
     if (!token) { navigate("/admin-login"); return; }
     const headers = { Authorization: `Bearer ${token}` };
     Promise.all([
-      fetch("https://examsphere-backend.onrender.com/api/admin/attempts", { headers }).then(r => r.json()),
-      fetch("https://examsphere-backend.onrender.com/api/attempts/leaderboard", { headers }).then(r => r.json()),
+      fetch(`${API_BASE_URL}/admin/attempts`, { headers }).then(r => r.json()),
+      fetch(`${API_BASE_URL}/attempts/leaderboard`, { headers }).then(r => r.json()),
     ]).then(([a, l]) => { setAttempts(a); setLeaderboard(l); })
       .catch(() => {}).finally(() => setLoading(false));
   }, []);

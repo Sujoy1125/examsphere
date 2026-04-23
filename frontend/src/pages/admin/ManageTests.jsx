@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AdminSidebar from "../../components/AdminSidebar";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../services/api";
 
 const difficulties = ["Easy", "Medium", "Hard"];
 const emptyForm = { title: "", subjectId: "", durationMinutes: 60, difficulty: "Medium", active: true };
@@ -29,8 +30,8 @@ export default function ManageTests() {
 
   const fetchAll = () => {
     Promise.all([
-      fetch("https://examsphere-backend.onrender.com/api/admin/tests", { headers }).then(r => r.json()),
-      fetch("https://examsphere-backend.onrender.com/api/admin/subjects", { headers }).then(r => r.json()),
+      fetch(`${API_BASE_URL}/admin/tests`, { headers }).then(r => r.json()),
+      fetch(`${API_BASE_URL}/admin/subjects`, { headers }).then(r => r.json()),
     ]).then(([t, s]) => { setTests(t); setSubjects(s); }).catch(() => {})
       .finally(() => setLoading(false));
   };
@@ -69,7 +70,7 @@ export default function ManageTests() {
     if (!validate()) return;
     setSaving(true);
     try {
-      const url = editingTest ? `https://examsphere-backend.onrender.com/api/admin/tests/${editingTest.id}` : "https://examsphere-backend.onrender.com/api/admin/tests";
+      const url = editingTest ? `${API_BASE_URL}/admin/tests/${editingTest.id}` : `${API_BASE_URL}/admin/tests`;
       const method = editingTest ? "PUT" : "POST";
       await fetch(url, { method, headers, body: JSON.stringify(form) });
       fetchAll();
@@ -79,12 +80,12 @@ export default function ManageTests() {
   };
 
   const toggleActive = async (id) => {
-    await fetch(`https://examsphere-backend.onrender.com/api/admin/tests/${id}/toggle`, { method: "PUT", headers });
+    await fetch(`${API_BASE_URL}/admin/tests/${id}/toggle`, { method: "PUT", headers });
     fetchAll();
   };
 
   const handleDelete = async (id) => {
-    await fetch(`https://examsphere-backend.onrender.com/api/admin/tests/${id}`, { method: "DELETE", headers });
+    await fetch(`${API_BASE_URL}/admin/tests/${id}`, { method: "DELETE", headers });
     fetchAll();
     setDeleteConfirm(null);
   };

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../../components/AdminSidebar";
+import { API_BASE_URL } from "../../services/api";
 
 const ICONS = ["science", "biotech", "calculate", "eco", "menu_book", "public", "history_edu", "language", "psychology", "computer"];
 const COLORS = ["bg-blue-100 text-blue-600", "bg-green-100 text-green-600", "bg-purple-100 text-purple-600",
@@ -28,7 +29,7 @@ export default function ManageSubjects() {
   }, []);
 
   const fetchSubjects = () => {
-    fetch("https://examsphere-backend.onrender.com/api/admin/subjects", { headers })
+    fetch(`${API_BASE_URL}/admin/subjects`, { headers })
       .then(r => r.json()).then(setSubjects).catch(() => setSubjects([]))
       .finally(() => setLoading(false));
   };
@@ -41,8 +42,8 @@ export default function ManageSubjects() {
     setSaving(true);
     try {
       const url = editingSubject
-        ? `https://examsphere-backend.onrender.com/api/admin/subjects/${editingSubject.id}`
-        : "https://examsphere-backend.onrender.com/api/admin/subjects";
+        ? `${API_BASE_URL}/admin/subjects/${editingSubject.id}`
+        : `${API_BASE_URL}/admin/subjects`;
       const method = editingSubject ? "PUT" : "POST";
       await fetch(url, { method, headers, body: JSON.stringify({ name: form.name, icon: form.icon }) });
       fetchSubjects();
@@ -53,7 +54,7 @@ export default function ManageSubjects() {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`https://examsphere-backend.onrender.com/api/admin/subjects/${id}`, { method: "DELETE", headers });
+      await fetch(`${API_BASE_URL}/admin/subjects/${id}`, { method: "DELETE", headers });
       fetchSubjects();
       setDeleteConfirm(null);
     } catch { alert("Failed to delete subject."); }

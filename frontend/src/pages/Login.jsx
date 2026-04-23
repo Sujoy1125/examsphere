@@ -57,7 +57,16 @@ export default function Login() {
 
       navigate("/dashboard");
     } catch (error) {
-      alert(error.response?.data?.error || "Login Failed");
+      console.error("Login error:", error);
+      if (error.response) {
+        // Backend returned an error response
+        alert(error.response.data?.error || `Login failed (Status ${error.response.status})`);
+      } else if (error.request) {
+        // Request was made but no response - CORS or backend not running
+        alert("Cannot connect to server. Is the backend running?");
+      } else {
+        alert("Login Failed: " + error.message);
+      }
     }
   };
 

@@ -3,6 +3,7 @@ package com.examsphere.backend.config;
 import java.security.Key;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -13,9 +14,18 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-    private final String SECRET = "mySuperSecretKeyForExamSphereProject123456";
-    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    @Value("${jwt.secret:mySuperSecretKeyForExamSphereProject123456}")
+    private String secret;
+
+    private Key key;
     private final long EXPIRY_MS = 1000L * 60 * 60 * 24; // 24 hours
+
+    private Key getKey() {
+        if (key == null) {
+            key = Keys.hmacShaKeyFor(secret.getBytes());
+        }
+        return key;
+    }
 
     public String generateToken(String email, String role) {
         return Jwts.builder()
@@ -23,7 +33,7 @@ public class JwtUtil {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRY_MS))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -46,7 +56,7 @@ public class JwtUtil {
 
     private Claims getClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(key)
+                .setSigningKey(getKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

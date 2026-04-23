@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Local Config ###
+application-local.properties
+
+### Scripts with credentials ###
+fix_admin_password.py

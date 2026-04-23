@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../../components/AdminSidebar";
+import { API_BASE_URL } from "../../services/api";
 
 export default function AttemptHistory() {
   const [open, setOpen] = useState(false);
@@ -13,7 +14,7 @@ export default function AttemptHistory() {
 
   useEffect(() => {
     if (!token) { navigate("/admin-login"); return; }
-    fetch("https://examsphere-backend.onrender.com/api/admin/attempts", {
+    fetch(`${API_BASE_URL}/admin/attempts`, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(r => r.json()).then(setAttempts).catch(() => setAttempts([]))
       .finally(() => setLoading(false));

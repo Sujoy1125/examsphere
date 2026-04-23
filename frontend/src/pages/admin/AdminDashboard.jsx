@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../../components/AdminSidebar";
+import { API_BASE_URL } from "../../services/api";
 
 const BarChart = ({ data }) => {
   const max = Math.max(...data.map((d) => d.value), 1);
@@ -33,8 +34,8 @@ export default function AdminDashboard() {
     const headers = { Authorization: `Bearer ${token}` };
 
     Promise.all([
-      fetch("https://examsphere-backend.onrender.com/api/admin/attempts", { headers }),
-      fetch("https://examsphere-backend.onrender.com/api/admin/tests", { headers }),
+      fetch(`${API_BASE_URL}/admin/attempts`, { headers }),
+      fetch(`${API_BASE_URL}/admin/tests`, { headers }),
     ]).then(async ([attRes, testRes]) => {
       const attempts = attRes.ok ? await attRes.json() : [];
       const tests = testRes.ok ? await testRes.json() : [];

@@ -1,7 +1,9 @@
 import axios from "axios";
 
+export const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+
 const API = axios.create({
-  baseURL: "https://examsphere-backend.onrender.com/api",
+  baseURL: API_BASE_URL,
 });
 
 API.interceptors.request.use((config) => {

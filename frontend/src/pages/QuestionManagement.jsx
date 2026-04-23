@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../components/AdminSidebar";
+import { API_BASE_URL } from "../services/api";
 
 const emptyForm = { testId: "", questionText: "", optionA: "", optionB: "", optionC: "", optionD: "", correctOption: "A", explanation: "" };
 
@@ -23,7 +24,7 @@ export default function QuestionManagement() {
 
   useEffect(() => {
     if (!token) { navigate("/admin-login"); return; }
-    fetch("https://examsphere-backend.onrender.com/api/admin/tests", { headers })
+    fetch(`${API_BASE_URL}/admin/tests`, { headers })
       .then(r => r.json()).then(t => { setTests(t); if (t.length > 0) setSelectedTest(String(t[0].id)); })
       .catch(() => {});
   }, []);
@@ -31,7 +32,7 @@ export default function QuestionManagement() {
   useEffect(() => {
     if (!selectedTest) return;
     setLoading(true);
-    fetch(`https://examsphere-backend.onrender.com/api/tests/${selectedTest}/questions`, { headers })
+    fetch(`${API_BASE_URL}/tests/${selectedTest}/questions`, { headers })
       .then(r => r.json()).then(setQuestions).catch(() => setQuestions([]))
       .finally(() => setLoading(false));
   }, [selectedTest]);
@@ -66,11 +67,11 @@ export default function QuestionManagement() {
     if (!validate()) return;
     setSaving(true);
     try {
-      const url = editingQ ? `https://examsphere-backend.onrender.com/api/admin/questions/${editingQ.id}` : "https://examsphere-backend.onrender.com/api/admin/questions";
+      const url = editingQ ? `${API_BASE_URL}/admin/questions/${editingQ.id}` : `${API_BASE_URL}/admin/questions`;
       const method = editingQ ? "PUT" : "POST";
       await fetch(url, { method, headers, body: JSON.stringify({ ...form, testId: Number(form.testId) }) });
       // Reload questions
-      const res = await fetch(`https://examsphere-backend.onrender.com/api/tests/${selectedTest}/questions`, { headers });
+      const res = await fetch(`${API_BASE_URL}/tests/${selectedTest}/questions`, { headers });
       setQuestions(await res.json());
       setShowModal(false);
     } catch { alert("Failed to save question."); }
@@ -78,7 +79,7 @@ export default function QuestionManagement() {
   };
 
   const handleDelete = async (id) => {
-    await fetch(`https://examsphere-backend.onrender.com/api/admin/questions/${id}`, { method: "DELETE", headers });
+    await fetch(`${API_BASE_URL}/admin/questions/${id}`, { method: "DELETE", headers });
     setQuestions(questions.filter(q => q.id !== id));
     setDeleteConfirm(null);
   };
