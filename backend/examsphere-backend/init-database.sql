@@ -110,5 +110,5 @@ INSERT INTO questions (test_id, question_text, option_a, option_b, option_c, opt
 -- Insert an admin user (password: admin123)
 -- NOTE: In production, use BCrypt hashed passwords
 INSERT INTO users (full_name, email, phone, exam, password, role) VALUES
-('Admin User', 'admin@examsphere.com', '1234567890', 'Admin', '$2b$10$n9RQvYMxaKTdOr0g/27U.OZlqBCI3UF9oLuwXr21EweqXOh9UqzQG', 'ADMIN');
+('Admin User', 'admin@examsphere.com', '1234567890', 'Admin', '$2a$10$G5He3TcwctN.qlsAywZKdeR0uEy5owzJvA5BiKPEeu0j7x1ptd1nG', 'ADMIN');
 
