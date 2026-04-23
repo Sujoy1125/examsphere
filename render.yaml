@@ -3,7 +3,7 @@ services:
   - type: web
     name: examsphere-api
     runtime: docker
-    repo: https://github.com/YOUR_USERNAME/examsphere
+    repo: https://github.com/Sujoy1125/examsphere
     region: oregon
     plan: free
     branch: main
@@ -32,7 +32,7 @@ services:
   - type: static
     name: examsphere-app
     runtime: static
-    repo: https://github.com/YOUR_USERNAME/examsphere
+    repo: https://github.com/Sujoy1125/examsphere
     region: oregon
     plan: free
     branch: main
@@ -48,3 +48,4 @@ databases:
     plan: free
     databaseName: examsphere
     user: examsphere
+
