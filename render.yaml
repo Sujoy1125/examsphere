@@ -7,7 +7,7 @@ services:
     region: oregon
     plan: free
     branch: main
-    dockerfilePath: ./backend/examsphere-backend/Dockerfile
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -29,7 +29,7 @@ services:
         value: 8080
 
   # Frontend Static Site
-  - type: static
+  - type: web
     name: examsphere-app
     runtime: static
     repo: https://github.com/Sujoy1125/examsphere
@@ -40,7 +40,7 @@ services:
     staticPublishPath: ./frontend/dist
     envVars:
       - key: VITE_API_URL
-        value: https://examsphere-api.onrender.com/api
+        value: https://examsphere-api-9i8g.onrender.com/api
 
 databases:
   - name: examsphere-db
@@ -48,4 +48,3 @@ databases:
     plan: free
     databaseName: examsphere
     user: examsphere
-
